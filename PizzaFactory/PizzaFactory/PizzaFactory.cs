@@ -2,22 +2,31 @@
 using Microsoft.Extensions.DependencyInjection;
 using PizzaFactory.Services;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory
 {
     public class PizzaFactoryRunner
     {
         private readonly IConsoleWriter _consoleWriter;
+        private readonly IConfigurationRoot _config;
 
-        public PizzaFactoryRunner(IServiceProvider serviceProvider)
+        public PizzaFactoryRunner(IServiceProvider serviceProvider, IConfigurationRoot config)
         {
             _consoleWriter = serviceProvider.GetService<IConsoleWriter>();
+            _config = config;
         }
 
         public int AskingNumberPizzas()
         {
+            var section = _config.GetSection(nameof(Properties));
+            var configuration = section.Get<Properties>();
 
-            var minNumberPizzas = 50;
+
+            //var minNumberPizzas = 50;
+            var minNumberPizzasConfig = configuration.BaseCookingTime;
+            int.TryParse(minNumberPizzasConfig, out int minNumberPizzas);
+
 
             Console.Write("Input a number of pizzas, the minimum order is 50 and the maximum is 100: ");
             string inputPizzas = Console.ReadLine();
@@ -59,7 +68,6 @@ namespace PizzaFactory
             {
                 Console.WriteLine(i + 1);
                 CreateRandomPizza();
-
             }
         }
 

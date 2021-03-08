@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PizzaFactory.Services;
 using System;
-using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory
 {
@@ -11,9 +11,14 @@ namespace PizzaFactory
 
         static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("Configuration.json").Build();
+
+           
             var serviceProvider = SetupDependencyInjection();
             
-            var pizzaFactoryRunner = new PizzaFactoryRunner(serviceProvider);
+            var pizzaFactoryRunner = new PizzaFactoryRunner(serviceProvider, config);
             var inputnumberPizzas = pizzaFactoryRunner.AskingNumberPizzas();
 
             pizzaFactoryRunner.RunPizzaFactory(inputnumberPizzas);

@@ -1,6 +1,8 @@
 {
-  "type":  "object",
+  "type": "object", 
   "properties": {
-    "baseBaseCookingTime": { "double": "3000" }
+    "baseCookingTime": "3000",
+    "timePerLetterTopping": "100",
+    "totalNumberPizzas": "50" 
   }
 }
