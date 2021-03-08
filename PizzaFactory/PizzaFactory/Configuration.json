@@ -1,0 +1,6 @@
+{
+  "type":  "object",
+  "properties": {
+    "baseBaseCookingTime": { "double": "3000" }
+  }
+}
