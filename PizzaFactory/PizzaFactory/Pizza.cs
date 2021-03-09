@@ -11,9 +11,9 @@ namespace PizzaFactory
         
         public Pizza(Toppings randomTopping, Base randomBase)
         {
-            PizzaDescription = randomTopping.DescriptionPrint + " " + randomBase.Description;
+            PizzaDescription = randomTopping.Description + " " + randomBase.Description;
             PizzaCookingTime = randomTopping.ToppingCookingTime + randomBase.TotalBaseTime;
-            Console.WriteLine($"Cooking a {PizzaDescription} pizza...");
+            Console.WriteLine($"Cooking a { PizzaDescription } pizza...");
         }
     }
 

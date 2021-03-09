@@ -15,15 +15,16 @@ namespace PizzaFactory.Services
 
         public int GetTotalNumberPizzas()
         {
-            var configSection = _config.GetSection(nameof(Properties));
+            var configSection = GetProperties();
             var numberPizzasConfig = configSection.Get<Properties>().TotalNumberPizzas;
-
             var isNumberPizzasParsed = int.TryParse(numberPizzasConfig, out int totalNumberPizzas);
 
             if (!isNumberPizzasParsed)
             {
                 totalNumberPizzas = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
+                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
+                return totalNumberPizzas;
             }
 
             _consoleWriter.WriteLine($"\n\nWE ARE COOKING YOUR {totalNumberPizzas} PIZZAS!!\n\n");
@@ -31,28 +32,25 @@ namespace PizzaFactory.Services
             return totalNumberPizzas;
         }
 
-        public double GetBaseCookingTime()
+        private double GetBaseCookingTime()
         {
-            var configSection = _config.GetSection(nameof(Properties));
+            var configSection = GetProperties();
             var baseCookingTimeConfig = configSection.Get<Properties>().BaseCookingTime;
-
             var isBaseCookingTimeParsed = double.TryParse(baseCookingTimeConfig, out double baseCookingTime);
 
             if (!isBaseCookingTimeParsed)
             {
                 baseCookingTime = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-
+                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
                 return baseCookingTime;
             }
-
             return baseCookingTime;
         }
 
-        public double GetBaseMultiplier(string baseType)
+        private double GetBaseMultiplier(string baseType)
         {
-            var configSection = _config.GetSection(nameof(Properties));
-
+            var configSection = GetProperties();
             var baseMultiplierConfig = "";
 
             if (baseType == "DeepPan")
@@ -69,7 +67,6 @@ namespace PizzaFactory.Services
             {
                 baseMultiplierConfig = configSection.Get<Properties>().BaseMultiplier.ThinAndCrispy;
             }
-
             var isBaseMultiplierParsed = double.TryParse(baseMultiplierConfig, out double baseMultiplier);
 
             if (!isBaseMultiplierParsed)
@@ -80,7 +77,6 @@ namespace PizzaFactory.Services
                 //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
                 return baseMultiplier;
             }
-
             return baseMultiplier;
         }
 
@@ -93,22 +89,52 @@ namespace PizzaFactory.Services
             return totalBaseTime;
         }
 
-        public double GetToppingCookingTime( string description)
+        public double GetToppingCookingTime(string description)
         {
-            var configSection = _config.GetSection(nameof(Properties));
+            var configSection = GetProperties();
             var timePerLetterToppingConfig = configSection.Get<Properties>().TimePerLetterTopping;
+            var isTimePerLetterToppingParsed = double.TryParse(timePerLetterToppingConfig, out double toppingCookingTime);
 
-            var isBaseCookingTimeParsed = double.TryParse(timePerLetterToppingConfig, out double baseCookingTime);
-
-            if (!isBaseCookingTimeParsed)
+            if (!isTimePerLetterToppingParsed)
             {
-                baseCookingTime = 0;
+                toppingCookingTime = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
 
-                return baseCookingTime;
+                return toppingCookingTime;
             }
+            return toppingCookingTime;
+        }
 
-            return baseCookingTime;
+        public double CalculateTotalToppingTime(string baseType)
+        {
+            var baseCookingTime = GetBaseCookingTime();
+            var baseMultiplier = GetBaseMultiplier(baseType);
+            var totalBaseTime = baseCookingTime * baseMultiplier;
+
+            return totalBaseTime;
+        }
+
+        public double GetIntervalTime()
+        {
+            var configSection = GetProperties();
+            var cookingIntervalConfig = configSection.Get<Properties>().CookingInterval;
+            var isCookingIntervalParsed = double.TryParse(cookingIntervalConfig, out double cookingInterval);
+
+            if (!isCookingIntervalParsed)
+            {
+                cookingInterval = 0;
+                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
+
+                return cookingInterval;
+            }
+            return cookingInterval;
+        }
+
+        private IConfiguration GetProperties()
+        {
+            var configSection =_config.GetSection(nameof(Properties));
+            return configSection;
         }
     }
+
 }

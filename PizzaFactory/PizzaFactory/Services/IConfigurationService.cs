@@ -7,11 +7,7 @@ namespace PizzaFactory.Services
     public interface IConfigurationService
     {
         int GetTotalNumberPizzas();
-
-        double GetBaseCookingTime();
-
-        double GetBaseMultiplier(string baseType);
-
         double CalculateTotalBaseTime(string baseType);
+        double GetIntervalTime();
     }
 }

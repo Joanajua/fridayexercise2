@@ -50,24 +50,20 @@ namespace PizzaFactory
 
         public Pizza CreateRandomPizza()
         {
-            var newPizza = new Pizza(CreateRandomTopping(), CreateRandomBase());
-            //Console.WriteLine($"Cooking a {newPizza.PizzaDescription} pizza...");
+            var pizza = new Pizza(CreateRandomTopping(), CreateRandomBase());
 
-            TimeSpan intervale = TimeSpan.FromMilliseconds(newPizza.PizzaCookingTime);
-            //intervale = intervale.Duration();
+            var totalPizzaCookingTime = (int)pizza.PizzaCookingTime;
+            var cookingInterval = (int)_configurationService.GetIntervalTime();
 
-            double timeBetweenPizzas = 7400;
-            TimeSpan cookingIntervale = TimeSpan.FromMilliseconds(timeBetweenPizzas);
+            _consoleWriter.WriteLine("Sleeping.....................zzzz\n");
 
-            _consoleWriter.WriteLine("Sleeping.....................zzzz");
+            Thread.Sleep(totalPizzaCookingTime);
+            _consoleWriter.WriteLine($"Pizza finished after { totalPizzaCookingTime } milliseconds.\n");
 
-            Thread.Sleep(intervale);
-            _consoleWriter.WriteLine($"Pizza finished after {intervale} seconds.\n");
+            Thread.Sleep(cookingInterval);
+            _consoleWriter.WriteLine($"Time between pizzas: { cookingInterval } milliseconds, finished!!!!!!!!\n");
 
-            Thread.Sleep(cookingIntervale - intervale);
-            _consoleWriter.WriteLine($"Time between pizzas: {cookingIntervale} finished!!!!!!!!\n");
-
-            return newPizza;
+            return pizza;
         }
 
     }

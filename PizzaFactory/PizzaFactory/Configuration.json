@@ -9,6 +9,6 @@
     },
     "totalNumberPizzas": "50",
     "timePerToppingLetter": "100",
-    "cookingInterval": "100"
+    "cookingInterval": "1000"
   }
 }

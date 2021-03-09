@@ -20,10 +20,9 @@ namespace PizzaFactory
     }
     public class DeepPan : Base
     {
-        public DeepPan(ConfigurationService configurationService)
-            : base(configurationService)
+        public DeepPan(IConfigurationService configurationService)
+            : base((ConfigurationService)configurationService)
         {
-            _configurationService = configurationService;
             BaseType = "DeepPan";
             Description = "Deep Pan";
             TotalBaseTime = configurationService.CalculateTotalBaseTime(BaseType);
@@ -32,8 +31,8 @@ namespace PizzaFactory
 
     public class StuffedCrust : Base
     {
-        public StuffedCrust(ConfigurationService configurationService)
-            : base(configurationService)
+        public StuffedCrust(IConfigurationService configurationService)
+            : base((ConfigurationService)configurationService)
         {
             BaseType = "StuffedCrust";
             Description = "Stuffed Crust";
@@ -43,8 +42,8 @@ namespace PizzaFactory
 
     public class ThinAndCrispy : Base
     {
-        public ThinAndCrispy(ConfigurationService configurationService)
-            : base(configurationService)
+        public ThinAndCrispy(IConfigurationService configurationService)
+            : base((ConfigurationService)configurationService)
         {
             BaseType = "ThinAndCrispy";
             Description = "Thin and Crispy";

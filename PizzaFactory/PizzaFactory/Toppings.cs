@@ -4,7 +4,7 @@
     {
         public string Description { get; protected set; }
 
-        public double TotalBaseTime { get; protected set; }
+        public double TotalToppingTime { get; protected set; }
 
         public double ToppingCookingTime => Description.Length * 100;
 
@@ -12,25 +12,16 @@
 
     public class HamMushroom : Toppings
     {
-        public HamMushroom()
-        {
-            Description = "Ham and Mushrooms";
-        }
+        public HamMushroom() => Description = "Ham and Mushrooms";
     }
     public class Pepperoni : Toppings
     {
-        public Pepperoni()
-        {
-            Description = "Pepperoni";
-        }
+        public Pepperoni() => Description = "Pepperoni";
     }
 
     public class Vegetable : Toppings
     {
-        public Vegetable()
-        {
-            Description = "Vegetable";
-        }
+        public Vegetable() => Description = "Vegetable";
     }
 }
 
