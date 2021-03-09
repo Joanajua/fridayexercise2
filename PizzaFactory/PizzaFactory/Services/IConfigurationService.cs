@@ -9,5 +9,6 @@ namespace PizzaFactory.Services
         int GetTotalNumberPizzas();
         double CalculateTotalBaseTime(string baseType);
         double GetIntervalTime();
+        double CalculateTotalToppingTime(string description);
     }
 }

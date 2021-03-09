@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory.Services
 {
@@ -89,29 +90,31 @@ namespace PizzaFactory.Services
             return totalBaseTime;
         }
 
-        public double GetToppingCookingTime(string description)
+        private double GetToppingCookingTime(string description)
         {
             var configSection = GetProperties();
-            var timePerLetterToppingConfig = configSection.Get<Properties>().TimePerLetterTopping;
-            var isTimePerLetterToppingParsed = double.TryParse(timePerLetterToppingConfig, out double toppingCookingTime);
+            var timePerLetterToppingConfig = configSection.Get<Properties>().TimePerToppingLetter;
+            var isTimePerLetterToppingParsed = double.TryParse(timePerLetterToppingConfig, out double timePerLetterTopping);
 
             if (!isTimePerLetterToppingParsed)
             {
-                toppingCookingTime = 0;
+                timePerLetterTopping = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
 
-                return toppingCookingTime;
+                return timePerLetterTopping;
             }
-            return toppingCookingTime;
+
+            return timePerLetterTopping;
         }
 
-        public double CalculateTotalToppingTime(string baseType)
+        public double CalculateTotalToppingTime(string description)
         {
-            var baseCookingTime = GetBaseCookingTime();
-            var baseMultiplier = GetBaseMultiplier(baseType);
-            var totalBaseTime = baseCookingTime * baseMultiplier;
+            description = description.Replace(" ", String.Empty);
+            var timePerLetterTopping = GetToppingCookingTime(description);
 
-            return totalBaseTime;
+            var totalToppingTime = timePerLetterTopping * description.Length;
+
+            return totalToppingTime;
         }
 
         public double GetIntervalTime()

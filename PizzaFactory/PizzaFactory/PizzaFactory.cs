@@ -25,9 +25,12 @@ namespace PizzaFactory
             }
         }
 
-        public Toppings CreateRandomTopping()
+        public Topping CreateRandomTopping()
         {
-            Toppings[] toppings = { new HamMushroom(), new Pepperoni(), new Vegetable() };
+            Topping[] toppings = { new HamMushroom((ConfigurationService)_configurationService),
+                                    new Pepperoni((ConfigurationService)_configurationService),
+                                    new Vegetable((ConfigurationService)_configurationService) };
+
             var random = new Random();
             var randomTopping = random.Next() % toppings.Length;
 
@@ -36,11 +39,9 @@ namespace PizzaFactory
         
         public Base CreateRandomBase()
         {
-            var hello = _configurationService;
-            Base[] bases =
-                    { new ThinAndCrispy((ConfigurationService)_configurationService), 
-                        new DeepPan((ConfigurationService)_configurationService),
-                        new StuffedCrust((ConfigurationService)_configurationService) };
+            Base[] bases = { new ThinAndCrispy((ConfigurationService)_configurationService), 
+                             new DeepPan((ConfigurationService)_configurationService),
+                             new StuffedCrust((ConfigurationService)_configurationService) };
 
             var random = new Random();
             var randomBase = random.Next() % bases.Length;

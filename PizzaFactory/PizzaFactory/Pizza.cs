@@ -9,10 +9,10 @@ namespace PizzaFactory
         public string PizzaDescription { get; set; }
         public double PizzaCookingTime { get; set; }
         
-        public Pizza(Toppings randomTopping, Base randomBase)
+        public Pizza(Topping randomTopping, Base randomBase)
         {
             PizzaDescription = randomTopping.Description + " " + randomBase.Description;
-            PizzaCookingTime = randomTopping.ToppingCookingTime + randomBase.TotalBaseTime;
+            PizzaCookingTime = randomTopping.TotalToppingTime + randomBase.TotalBaseTime;
             Console.WriteLine($"Cooking a { PizzaDescription } pizza...");
         }
     }
