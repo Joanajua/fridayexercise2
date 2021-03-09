@@ -8,7 +8,7 @@ namespace PizzaFactory
 {
     public abstract class Base
     {
-        private readonly ConfigurationService _configurationService;
+        protected IConfigurationService _configurationService;
         protected Base(ConfigurationService configurationService)
         {
             _configurationService = configurationService;
@@ -16,13 +16,14 @@ namespace PizzaFactory
 
         public string BaseType { get; protected set; }
         public string Description { get; protected set; }
-        public int TotalBaseTime { get; protected set; }
+        public double TotalBaseTime { get; protected set; }
     }
     public class DeepPan : Base
     {
         public DeepPan(ConfigurationService configurationService)
             : base(configurationService)
         {
+            _configurationService = configurationService;
             BaseType = "DeepPan";
             Description = "Deep Pan";
             TotalBaseTime = configurationService.CalculateTotalBaseTime(BaseType);

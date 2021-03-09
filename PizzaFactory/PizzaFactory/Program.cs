@@ -14,12 +14,15 @@ namespace PizzaFactory
                 .AddJsonFile("Configuration.json").Build();
 
             var serviceProvider = SetupDependencyInjection();
-            
-            var pizzaFactoryRunner = new PizzaFactoryRunner(serviceProvider, config);
+            //IServiceCollection services = new ServiceCollection();
+            //ConfigureServices(services);
+            var consoleWriter = new ConsoleWriter();
+            var configurationService = new ConfigurationService(consoleWriter, config);
+            var pizzaFactoryRunner = new PizzaFactoryRunner(consoleWriter, configurationService);
 
             pizzaFactoryRunner.RunPizzaFactory();
         }
-        
+
         static ServiceProvider SetupDependencyInjection()
         {
             return new ServiceCollection()
@@ -27,5 +30,10 @@ namespace PizzaFactory
                 .BuildServiceProvider();
         }
 
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.AddSingleton<IConsoleWriter, ConsoleWriter>();
+        //    services.AddSingleton<IConfigurationService, ConfigurationService>();
+        //}
     }
 }

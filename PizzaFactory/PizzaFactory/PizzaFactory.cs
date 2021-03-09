@@ -1,20 +1,17 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 using PizzaFactory.Services;
 using System.Threading;
-using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory
 {
     public class PizzaFactoryRunner
     {
         private readonly IConsoleWriter _consoleWriter;
-        //private readonly IConfigurationRoot _config;
-        private readonly ConfigurationService _configurationService;
+        private readonly IConfigurationService _configurationService;
 
-        public PizzaFactoryRunner(IServiceProvider serviceProvider, ConfigurationService configurationService)
+        public PizzaFactoryRunner(ConsoleWriter consoleWriter, ConfigurationService configurationService)
         {
-            _consoleWriter = serviceProvider.GetService<IConsoleWriter>();
+            _consoleWriter = consoleWriter;
             _configurationService = configurationService;
         }
 
@@ -36,20 +33,20 @@ namespace PizzaFactory
 
             return toppings[randomTopping];
         }
-
+        
         public Base CreateRandomBase()
         {
+            var hello = _configurationService;
             Base[] bases =
-                { new ThinAndCrispy(_configurationService), new DeepPan(_configurationService), new StuffedCrust(_configurationService) };
+                    { new ThinAndCrispy((ConfigurationService)_configurationService), 
+                        new DeepPan((ConfigurationService)_configurationService),
+                        new StuffedCrust((ConfigurationService)_configurationService) };
+
             var random = new Random();
             var randomBase = random.Next() % bases.Length;
 
             return bases[randomBase];
         }
-
-
-
-        //public Pizza CreateRandomPizza() => new Pizza(CreateRandomTopping(), CreateRandomBase());
 
         public Pizza CreateRandomPizza()
         {

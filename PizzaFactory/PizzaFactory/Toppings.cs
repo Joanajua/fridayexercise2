@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PizzaFactory
+﻿namespace PizzaFactory
 {
     public abstract class Toppings
     {
-        public string Description = "";
-        public string DescriptionPrint = "";
+        public string Description { get; protected set; }
+
+        public double TotalBaseTime { get; protected set; }
+
         public double ToppingCookingTime => Description.Length * 100;
 
     }
@@ -16,8 +14,7 @@ namespace PizzaFactory
     {
         public HamMushroom()
         {
-            DescriptionPrint = "Ham & Mushrooms";
-            Description = DescriptionPrint.Remove(3, 3);
+            Description = "Ham and Mushrooms";
         }
     }
     public class Pepperoni : Toppings
@@ -25,7 +22,6 @@ namespace PizzaFactory
         public Pepperoni()
         {
             Description = "Pepperoni";
-            DescriptionPrint = Description;
         }
     }
 
@@ -34,7 +30,6 @@ namespace PizzaFactory
         public Vegetable()
         {
             Description = "Vegetable";
-            DescriptionPrint = Description;
         }
     }
 }

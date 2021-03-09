@@ -4,11 +4,11 @@
     "baseCookingTime": "3000",
     "baseMultiplier": {
       "deepPan": "2",
-      "stuffedCrust": "1",
-      "thinAndCrispy": "1.5"
+      "stuffedCrust": "1.5",
+      "thinAndCrispy": "1"
     },
     "totalNumberPizzas": "50",
     "timePerToppingLetter": "100",
-    "cookingInterval": "7400"
+    "cookingInterval": "100"
   }
 }

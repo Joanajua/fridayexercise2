@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using PizzaFactory.Services;
-using System.Threading;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory.Services
 {
-    public class ConfigurationService
+    public class ConfigurationService : IConfigurationService
     {
         private readonly IConsoleWriter _consoleWriter;
         private readonly IConfigurationRoot _config;
 
-        public ConfigurationService(IServiceProvider serviceProvider, IConfigurationRoot config)
+        public ConfigurationService(ConsoleWriter consoleWriter, IConfigurationRoot config)
         {
-            _consoleWriter = serviceProvider.GetService<IConsoleWriter>();
+            _consoleWriter = consoleWriter;
             _config = config;
         }
 
@@ -29,7 +24,6 @@ namespace PizzaFactory.Services
             {
                 totalNumberPizzas = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-                break;
             }
 
             _consoleWriter.WriteLine($"\n\nWE ARE COOKING YOUR {totalNumberPizzas} PIZZAS!!\n\n");
@@ -37,12 +31,12 @@ namespace PizzaFactory.Services
             return totalNumberPizzas;
         }
 
-        private int GetBaseCookingTime()
+        public double GetBaseCookingTime()
         {
             var configSection = _config.GetSection(nameof(Properties));
             var baseCookingTimeConfig = configSection.Get<Properties>().BaseCookingTime;
 
-            var isBaseCookingTimeParsed = int.TryParse(baseCookingTimeConfig, out int baseCookingTime);
+            var isBaseCookingTimeParsed = double.TryParse(baseCookingTimeConfig, out double baseCookingTime);
 
             if (!isBaseCookingTimeParsed)
             {
@@ -55,7 +49,7 @@ namespace PizzaFactory.Services
             return baseCookingTime;
         }
 
-        private int GetBaseMultiplier(string baseType)
+        public double GetBaseMultiplier(string baseType)
         {
             var configSection = _config.GetSection(nameof(Properties));
 
@@ -76,26 +70,45 @@ namespace PizzaFactory.Services
                 baseMultiplierConfig = configSection.Get<Properties>().BaseMultiplier.ThinAndCrispy;
             }
 
-            var isBaseMultiplierParsed = int.TryParse(baseMultiplierConfig, out int baseMultiplier);
+            var isBaseMultiplierParsed = double.TryParse(baseMultiplierConfig, out double baseMultiplier);
 
             if (!isBaseMultiplierParsed)
             {
                 baseMultiplier = 0;
                 _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
 
+                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
                 return baseMultiplier;
             }
 
             return baseMultiplier;
         }
 
-        public int CalculateTotalBaseTime(string baseType)
+        public double CalculateTotalBaseTime(string baseType)
         {
             var baseCookingTime = GetBaseCookingTime();
             var baseMultiplier = GetBaseMultiplier(baseType);
             var totalBaseTime = baseCookingTime * baseMultiplier;
 
             return totalBaseTime;
+        }
+
+        public double GetToppingCookingTime( string description)
+        {
+            var configSection = _config.GetSection(nameof(Properties));
+            var timePerLetterToppingConfig = configSection.Get<Properties>().TimePerLetterTopping;
+
+            var isBaseCookingTimeParsed = double.TryParse(timePerLetterToppingConfig, out double baseCookingTime);
+
+            if (!isBaseCookingTimeParsed)
+            {
+                baseCookingTime = 0;
+                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
+
+                return baseCookingTime;
+            }
+
+            return baseCookingTime;
         }
     }
 }
