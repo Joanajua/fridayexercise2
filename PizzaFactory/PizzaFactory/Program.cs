@@ -7,21 +7,17 @@ namespace PizzaFactory
 {
     class Program
     {
-        public static int inputnumberPizzas { get; set; }
-
-        static void Main(string[] args)
+        static void Main()
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("Configuration.json").Build();
 
-           
             var serviceProvider = SetupDependencyInjection();
             
             var pizzaFactoryRunner = new PizzaFactoryRunner(serviceProvider, config);
-            var inputnumberPizzas = pizzaFactoryRunner.AskingNumberPizzas();
 
-            pizzaFactoryRunner.RunPizzaFactory(inputnumberPizzas);
+            pizzaFactoryRunner.RunPizzaFactory();
         }
         
         static ServiceProvider SetupDependencyInjection()

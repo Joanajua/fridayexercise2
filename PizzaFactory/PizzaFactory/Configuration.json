@@ -1,8 +1,14 @@
 {
-  "type": "object", 
+  "type": "object",
   "properties": {
     "baseCookingTime": "3000",
-    "timePerLetterTopping": "100",
-    "totalNumberPizzas": "50" 
+    "baseMultiplier": {
+      "deepPan": "2",
+      "stuffedCrust": "1",
+      "thinAndCrispy": "1.5"
+    },
+    "totalNumberPizzas": "50",
+    "timePerToppingLetter": "100",
+    "cookingInterval": "7400"
   }
 }

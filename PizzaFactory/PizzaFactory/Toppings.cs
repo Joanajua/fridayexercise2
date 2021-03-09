@@ -8,7 +8,7 @@ namespace PizzaFactory
     {
         public string Description = "";
         public string DescriptionPrint = "";
-        public double CookingTime => Description.Length * 100;
+        public double ToppingCookingTime => Description.Length * 100;
 
     }
 

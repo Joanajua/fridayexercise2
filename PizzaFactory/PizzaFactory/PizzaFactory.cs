@@ -9,99 +9,42 @@ namespace PizzaFactory
     public class PizzaFactoryRunner
     {
         private readonly IConsoleWriter _consoleWriter;
-        private readonly IConfigurationRoot _config;
+        //private readonly IConfigurationRoot _config;
+        private readonly ConfigurationService _configurationService;
 
-        public PizzaFactoryRunner(IServiceProvider serviceProvider, IConfigurationRoot config)
+        public PizzaFactoryRunner(IServiceProvider serviceProvider, ConfigurationService configurationService)
         {
             _consoleWriter = serviceProvider.GetService<IConsoleWriter>();
-            _config = config;
+            _configurationService = configurationService;
         }
 
-        public int AskingNumberPizzas()
+        public void RunPizzaFactory()
         {
-            var section = _config.GetSection(nameof(Properties));
-            var configuration = section.Get<Properties>();
-
-
-            //var minNumberPizzas = 50;
-            var minNumberPizzasConfig = configuration.BaseCookingTime;
-            int.TryParse(minNumberPizzasConfig, out int minNumberPizzas);
-
-
-            Console.Write("Input a number of pizzas, the minimum order is 50 and the maximum is 100: ");
-            string inputPizzas = Console.ReadLine();
-
-            var tryingToParseInput = int.TryParse(inputPizzas, out int inputnumberPizzas);
-
-            if (tryingToParseInput)
-            {
-                if (inputnumberPizzas >= minNumberPizzas && inputnumberPizzas <= 100)
-                {
-                    Console.WriteLine($"\n\nWE ARE COOKING YOUR {inputnumberPizzas} PIZZAS!!\n\n");
-
-                    return inputnumberPizzas;
-
-                }
-
-                do
-                {
-                    Console.Write("Sorry, enter a number between 100 and 50: ");
-                    inputPizzas = Console.ReadLine();
-                    tryingToParseInput = int.TryParse(inputPizzas, out inputnumberPizzas);
-
-                }
-                while (inputnumberPizzas < minNumberPizzas || inputnumberPizzas > 100);
-
-                Console.WriteLine($"\n\nWE ARE COOKING YOUR  {inputnumberPizzas} PIZZAS!!\n\n");
-
-                return inputnumberPizzas;
-
-            }
-           
-            Console.Write("Sorry, the number you entered is not valid, chose a number higher than 50 and lower than 101: ");
-            return 0;
-        }
-
-        public void RunPizzaFactory(int inputnumberPizzas)
-        {
-            for (int i = 0; i< inputnumberPizzas; i++)
+            var totalNumberPizzas = _configurationService.GetTotalNumberPizzas();
+            for (int i = 0; i < totalNumberPizzas; i++)
             {
                 Console.WriteLine(i + 1);
                 CreateRandomPizza();
             }
         }
 
-
         public Toppings CreateRandomTopping()
         {
-            //Toppings pizzaTopping = null;
-
-            Toppings[] toppings = new Toppings[]
-            {
-                new HamMushroom(), new Pepperoni(), new Vegetable()
-            };
-
+            Toppings[] toppings = { new HamMushroom(), new Pepperoni(), new Vegetable() };
             var random = new Random();
             var randomTopping = random.Next() % toppings.Length;
 
             return toppings[randomTopping];
-
         }
 
-        public Bases CreateRandomBase()
+        public Base CreateRandomBase()
         {
-            //Bases pizzabase = null;
-
-            Bases[] bases = new Bases[]
-            {
-                new ThinCrispy(), new DeepPan(), new StuffedCrust()
-            };
-
+            Base[] bases =
+                { new ThinAndCrispy(_configurationService), new DeepPan(_configurationService), new StuffedCrust(_configurationService) };
             var random = new Random();
             var randomBase = random.Next() % bases.Length;
-            //Console.WriteLine($"{bases[randomBase].Description} pizza.");
-            return bases[randomBase];
 
+            return bases[randomBase];
         }
 
 
@@ -110,8 +53,7 @@ namespace PizzaFactory
 
         public Pizza CreateRandomPizza()
         {
-            
-            Pizza newPizza = new Pizza(CreateRandomTopping(), CreateRandomBase());
+            var newPizza = new Pizza(CreateRandomTopping(), CreateRandomBase());
             //Console.WriteLine($"Cooking a {newPizza.PizzaDescription} pizza...");
 
             TimeSpan intervale = TimeSpan.FromMilliseconds(newPizza.PizzaCookingTime);
@@ -120,16 +62,15 @@ namespace PizzaFactory
             double timeBetweenPizzas = 7400;
             TimeSpan cookingIntervale = TimeSpan.FromMilliseconds(timeBetweenPizzas);
 
-            Console.WriteLine("Sleeping.....................zzzz");
+            _consoleWriter.WriteLine("Sleeping.....................zzzz");
 
             Thread.Sleep(intervale);
-            Console.WriteLine($"Pizza finished after  {intervale} seconds.\n");
+            _consoleWriter.WriteLine($"Pizza finished after {intervale} seconds.\n");
 
             Thread.Sleep(cookingIntervale - intervale);
-            Console.WriteLine($"Time between pizzas: {cookingIntervale} finished!!!!!!!!\n");
+            _consoleWriter.WriteLine($"Time between pizzas: {cookingIntervale} finished!!!!!!!!\n");
 
             return newPizza;
-
         }
 
     }
