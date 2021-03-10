@@ -9,7 +9,7 @@ namespace PizzaFactory
         private readonly IConsoleWriter _consoleWriter;
         private readonly IConfigurationService _configurationService;
 
-        public PizzaFactoryRunner(ConsoleWriter consoleWriter, ConfigurationService configurationService)
+        public PizzaFactoryRunner(IConsoleWriter consoleWriter, IConfigurationService configurationService)
         {
             _consoleWriter = consoleWriter;
             _configurationService = configurationService;
@@ -20,7 +20,7 @@ namespace PizzaFactory
             var totalNumberPizzas = _configurationService.GetTotalNumberPizzas();
             for (int i = 0; i < totalNumberPizzas; i++)
             {
-                Console.WriteLine(i + 1);
+                _consoleWriter.WriteLine((i + 1).ToString());
                 CreateRandomPizza();
             }
         }
@@ -51,9 +51,14 @@ namespace PizzaFactory
 
         public Pizza CreateRandomPizza()
         {
-            var pizza = new Pizza(CreateRandomTopping(), CreateRandomBase());
+            var pizza = new Pizza();
+            var randomTopping = CreateRandomTopping();
+            var randomBase = CreateRandomBase();
 
-            var totalPizzaCookingTime = (int)pizza.PizzaCookingTime;
+            var pizzaDescription = pizza.GetPizzaDescription(randomTopping, randomBase);
+            Console.WriteLine($"Cooking a { pizzaDescription } pizza...");
+
+            var totalPizzaCookingTime = (int)pizza.GetPizzaCookingTime(randomTopping, randomBase);
             var cookingInterval = (int)_configurationService.GetIntervalTime();
 
             _consoleWriter.WriteLine("Sleeping.....................zzzz\n");

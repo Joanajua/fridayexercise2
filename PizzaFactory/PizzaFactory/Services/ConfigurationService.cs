@@ -8,7 +8,7 @@ namespace PizzaFactory.Services
         private readonly IConsoleWriter _consoleWriter;
         private readonly IConfigurationRoot _config;
 
-        public ConfigurationService(ConsoleWriter consoleWriter, IConfigurationRoot config)
+        public ConfigurationService(IConsoleWriter consoleWriter, IConfigurationRoot config)
         {
             _consoleWriter = consoleWriter;
             _config = config;

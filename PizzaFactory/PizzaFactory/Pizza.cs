@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace PizzaFactory
 {
     public class Pizza
     {
-        public string PizzaDescription { get; set; }
-        public double PizzaCookingTime { get; set; }
-        
-        public Pizza(Topping randomTopping, Base randomBase)
+        private string _pizzaDescription;
+
+        private double _pizzaCookingTime;
+
+
+        public string PizzaDescription
         {
-            PizzaDescription = randomTopping.Description + " " + randomBase.Description;
-            PizzaCookingTime = randomTopping.TotalToppingTime + randomBase.TotalBaseTime;
-            Console.WriteLine($"Cooking a { PizzaDescription } pizza...");
+            get => _pizzaDescription;
+            set => _pizzaDescription = value;
+        }
+
+        public double PizzaCookingTime
+        {
+            get => _pizzaCookingTime;
+            set => _pizzaCookingTime = value;
+        }
+
+        public string GetPizzaDescription(Topping randomTopping, Base randomBase)
+        {
+            _pizzaDescription = randomTopping.Description + " " + randomBase.Description;
+            return _pizzaDescription;
+        }
+
+        public double GetPizzaCookingTime(Topping randomTopping, Base randomBase)
+        {
+            _pizzaCookingTime = randomTopping.TotalToppingTime + randomBase.TotalBaseTime;
+            return _pizzaCookingTime;
         }
     }
 
