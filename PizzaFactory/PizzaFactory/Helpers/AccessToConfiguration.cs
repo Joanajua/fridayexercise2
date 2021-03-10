@@ -5,7 +5,7 @@ namespace PizzaFactory.Helpers
 {
     public static class AccessToConfiguration
     {
-        public static IConfiguration Configuration;
+        public static IConfiguration Configuration = GetConfiguration();
 
         public static IConfiguration GetConfiguration()
         {
