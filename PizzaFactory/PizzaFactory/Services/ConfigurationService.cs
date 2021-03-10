@@ -1,19 +1,11 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using PizzaFactory.Helpers;
 
 namespace PizzaFactory.Services
 {
     public class ConfigurationService : IConfigurationService
     {
-        private readonly IConsoleWriter _consoleWriter;
-        private readonly IConfigurationRoot _config;
-
-        public ConfigurationService(IConsoleWriter consoleWriter, IConfigurationRoot config)
-        {
-            _consoleWriter = consoleWriter;
-            _config = config;
-        }
-
         public int GetTotalNumberPizzas()
         {
             var configSection = GetProperties();
@@ -23,12 +15,9 @@ namespace PizzaFactory.Services
             if (!isNumberPizzasParsed)
             {
                 totalNumberPizzas = 0;
-                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
                 return totalNumberPizzas;
             }
 
-            _consoleWriter.WriteLine($"\n\nWE ARE COOKING YOUR {totalNumberPizzas} PIZZAS!!\n\n");
 
             return totalNumberPizzas;
         }
@@ -42,8 +31,6 @@ namespace PizzaFactory.Services
             if (!isBaseCookingTimeParsed)
             {
                 baseCookingTime = 0;
-                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
                 return baseCookingTime;
             }
             return baseCookingTime;
@@ -72,10 +59,7 @@ namespace PizzaFactory.Services
 
             if (!isBaseMultiplierParsed)
             {
-                baseMultiplier = 0;
-                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-
-                //TODO PUT A CONSOLO.READKEY() TO STOP EXECUTION OF THE PROGRAM
+                baseMultiplier = 1;
                 return baseMultiplier;
             }
             return baseMultiplier;
@@ -99,8 +83,6 @@ namespace PizzaFactory.Services
             if (!isTimePerLetterToppingParsed)
             {
                 timePerLetterTopping = 0;
-                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-
                 return timePerLetterTopping;
             }
 
@@ -126,8 +108,6 @@ namespace PizzaFactory.Services
             if (!isCookingIntervalParsed)
             {
                 cookingInterval = 0;
-                _consoleWriter.WriteLine($"\n\nWE ARE UNABLE TO COOK YOUR PIZZAS, PLEASE RESTART THE APPLICATION!!\n\n");
-
                 return cookingInterval;
             }
             return cookingInterval;
@@ -135,7 +115,7 @@ namespace PizzaFactory.Services
 
         private IConfiguration GetProperties()
         {
-            var configSection =_config.GetSection(nameof(Properties));
+            var configSection = AccessToConfiguration.Configuration.GetSection(nameof(Properties));
             return configSection;
         }
     }

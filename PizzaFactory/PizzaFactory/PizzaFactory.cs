@@ -18,6 +18,14 @@ namespace PizzaFactory
         public void RunPizzaFactory()
         {
             var totalNumberPizzas = _configurationService.GetTotalNumberPizzas();
+
+            if (totalNumberPizzas == 0)
+            {
+                _consoleWriter.WriteLine($"\nThe number of pizzas is { totalNumberPizzas }!!\n\n");
+            }
+
+            _consoleWriter.WriteLine($"\nWE ARE COOKING YOUR { totalNumberPizzas } PIZZAS!!\n\n");
+
             for (int i = 0; i < totalNumberPizzas; i++)
             {
                 _consoleWriter.WriteLine((i + 1).ToString());

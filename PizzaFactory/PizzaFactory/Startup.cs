@@ -1,22 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using PizzaFactory.Helpers;
 using PizzaFactory.Services;
 
 namespace PizzaFactory
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+            AccessToConfiguration.Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         public static void RunApplication()
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("Configuration.json").Build();
-
             var consoleWriter = new ConsoleWriter();
-            var configurationService = new ConfigurationService(consoleWriter, config);
+            var configurationService = new ConfigurationService();
 
             var pizzaFactoryRunner = new PizzaFactoryRunner(consoleWriter, configurationService);
 

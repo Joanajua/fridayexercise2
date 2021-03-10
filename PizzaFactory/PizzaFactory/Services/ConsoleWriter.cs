@@ -8,5 +8,9 @@ namespace PizzaFactory.Services
         {
             Console.WriteLine(line);
         }
+        public void ReadKey()
+        {
+            Console.ReadKey();
+        }
     }
 }

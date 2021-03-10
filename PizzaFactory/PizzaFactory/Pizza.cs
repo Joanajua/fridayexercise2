@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-
-namespace PizzaFactory
+﻿namespace PizzaFactory
 {
     public class Pizza
     {
         private string _pizzaDescription;
 
         private double _pizzaCookingTime;
-
 
         public string PizzaDescription
         {
