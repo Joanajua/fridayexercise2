@@ -11,6 +11,7 @@ namespace PizzaFactory.Services
         public string TimePerToppingLetter { get; set; }
         public string TotalNumberPizzas { get; set; }
         public string CookingInterval { get; set; }
+        public string FilePath { get; set; }
         public BaseMultiplier BaseMultiplier { get; set; }
     }
 

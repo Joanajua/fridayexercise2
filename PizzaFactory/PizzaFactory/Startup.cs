@@ -20,8 +20,9 @@ namespace PizzaFactory
         {
             var consoleWriter = new ConsoleWriter();
             var configurationService = new ConfigurationService();
+            var fileWriter = new FileWriter(configurationService);
 
-            var pizzaFactoryRunner = new PizzaFactoryRunner(consoleWriter, configurationService);
+            var pizzaFactoryRunner = new PizzaFactoryRunner(consoleWriter, configurationService, fileWriter);
 
             pizzaFactoryRunner.RunPizzaFactory();
         }

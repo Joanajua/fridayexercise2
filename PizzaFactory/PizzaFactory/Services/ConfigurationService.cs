@@ -17,8 +17,6 @@ namespace PizzaFactory.Services
                 totalNumberPizzas = 0;
                 return totalNumberPizzas;
             }
-
-
             return totalNumberPizzas;
         }
 
@@ -85,7 +83,6 @@ namespace PizzaFactory.Services
                 timePerLetterTopping = 0;
                 return timePerLetterTopping;
             }
-
             return timePerLetterTopping;
         }
 
@@ -111,6 +108,14 @@ namespace PizzaFactory.Services
                 return cookingInterval;
             }
             return cookingInterval;
+        }
+
+        public string GetFilePath()
+        {
+            var configSection = GetProperties();
+            var filePath = configSection.Get<Properties>().FilePath;
+
+            return filePath;
         }
 
         private IConfiguration GetProperties()

@@ -8,11 +8,14 @@ namespace PizzaFactory
     {
         private readonly IConsoleWriter _consoleWriter;
         private readonly IConfigurationService _configurationService;
+        private readonly IFileWriter _fileWriter;
 
-        public PizzaFactoryRunner(IConsoleWriter consoleWriter, IConfigurationService configurationService)
+
+        public PizzaFactoryRunner(IConsoleWriter consoleWriter, IConfigurationService configurationService, IFileWriter fileWriter)
         {
             _consoleWriter = consoleWriter;
             _configurationService = configurationService;
+            _fileWriter = fileWriter;
         }
 
         public void RunPizzaFactory()
@@ -65,6 +68,9 @@ namespace PizzaFactory
 
             var pizzaDescription = pizza.GetPizzaDescription(randomTopping, randomBase);
             Console.WriteLine($"Cooking a { pizzaDescription } pizza...");
+
+            //TODO WRITE TO A FILE
+            _fileWriter.WritePizzaDescription(pizzaDescription);
 
             var totalPizzaCookingTime = (int)pizza.GetPizzaCookingTime(randomTopping, randomBase);
             var cookingInterval = (int)_configurationService.GetIntervalTime();

@@ -10,5 +10,6 @@ namespace PizzaFactory.Services
         double CalculateTotalBaseTime(string baseType);
         double GetIntervalTime();
         double CalculateTotalToppingTime(string description);
+        string GetFilePath();
     }
 }
