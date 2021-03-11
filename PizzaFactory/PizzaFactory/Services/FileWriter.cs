@@ -27,11 +27,13 @@ namespace PizzaFactory.Services
                     streamWriter.WriteLine(pizzaDescription);
                 }
             }
-
-            // If file already exist add line.
-            using (StreamWriter streamWriter = File.AppendText(filePath))
+            else
             {
-                streamWriter.WriteLine(pizzaDescription);
+                // If file already exist add line.
+                using (StreamWriter streamWriter = File.AppendText(filePath))
+                {
+                    streamWriter.WriteLine(pizzaDescription);
+                }
             }
         }
     }
