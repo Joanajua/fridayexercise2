@@ -69,7 +69,6 @@ namespace PizzaFactory
             var pizzaDescription = pizza.GetPizzaDescription(randomTopping, randomBase);
             Console.WriteLine($"Cooking a { pizzaDescription } pizza...");
 
-            //TODO WRITE TO A FILE
             _fileWriter.WritePizzaDescription(pizzaDescription);
 
             var totalPizzaCookingTime = (int)pizza.GetPizzaCookingTime(randomTopping, randomBase);

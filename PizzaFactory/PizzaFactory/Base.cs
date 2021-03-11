@@ -6,6 +6,7 @@ namespace PizzaFactory
     public abstract class Base
     {
         protected IConfigurationService _configurationService;
+
         protected Base(ConfigurationService configurationService)
         {
             _configurationService = configurationService;

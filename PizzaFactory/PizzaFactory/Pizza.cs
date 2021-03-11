@@ -6,17 +6,15 @@
 
         private double _pizzaCookingTime;
 
-        public string PizzaDescription
+        public Pizza()
         {
-            get => _pizzaDescription;
-            set => _pizzaDescription = value;
+            PizzaDescription = _pizzaDescription;
+            PizzaCookingTime = _pizzaCookingTime;
         }
 
-        public double PizzaCookingTime
-        {
-            get => _pizzaCookingTime;
-            set => _pizzaCookingTime = value;
-        }
+        public string PizzaDescription { get; set; }
+
+        public double PizzaCookingTime { get; set; }
 
         public string GetPizzaDescription(Topping randomTopping, Base randomBase)
         {
