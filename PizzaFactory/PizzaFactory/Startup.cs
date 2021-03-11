@@ -6,14 +6,6 @@ namespace PizzaFactory
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            ConfigurationManager.Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         public static void RunApplication()
         {
             var consoleWriter = new ConsoleWriter();
