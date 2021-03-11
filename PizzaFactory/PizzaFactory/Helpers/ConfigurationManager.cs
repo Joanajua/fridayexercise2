@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory.Helpers
 {
-    public static class AccessToConfiguration
+    public static class ConfigurationManager
     {
         public static IConfiguration Configuration = GetConfiguration();
 

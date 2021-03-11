@@ -11,7 +11,7 @@ namespace PizzaFactory
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            AccessToConfiguration.Configuration = configuration;
+            ConfigurationManager.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }

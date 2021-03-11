@@ -120,7 +120,7 @@ namespace PizzaFactory.Services
 
         private IConfiguration GetProperties()
         {
-            var configSection = AccessToConfiguration.Configuration.GetSection(nameof(Properties));
+            var configSection = ConfigurationManager.Configuration.GetSection(nameof(Properties));
             return configSection;
         }
     }
