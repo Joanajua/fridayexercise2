@@ -1,45 +1,63 @@
-﻿using PizzaFactory.Services;
-
+﻿using System;
+using PizzaFactory.Services;
 namespace PizzaFactory
 {
-    public abstract class Topping
+    public class Topping
     {
-        protected IConfigurationService _configurationService;
-        protected Topping(ConfigurationService configurationService)
+        private readonly IConfigurationService _configurationService;
+        public Topping(IConfigurationService configurationService)
         {
             _configurationService = configurationService;
         }
 
         public string Description { get; protected set; }
         public double TotalToppingTime { get; protected set; }
+
+        public double CalculateTotalToppingTime(string description)
+        {
+            double totalToppingTime = 0;
+
+            if (string.IsNullOrEmpty(description))
+            {
+                return totalToppingTime;
+            }
+
+            description = description.Replace(" ", String.Empty);
+
+            var timePerLetterTopping = _configurationService.GetToppingCookingTime();
+
+            totalToppingTime = timePerLetterTopping * description.Length;
+
+            return totalToppingTime;
+        }
     }
 
     public class HamMushroom : Topping
     {
         public HamMushroom(IConfigurationService configurationService)
-            : base((ConfigurationService)configurationService)
+            : base(configurationService)
         {
             Description = "Ham and Mushrooms";
-            TotalToppingTime = configurationService.CalculateTotalToppingTime(Description);
+            TotalToppingTime = CalculateTotalToppingTime(Description);
         }
     }
     public class Pepperoni : Topping
     {
         public Pepperoni(IConfigurationService configurationService)
-            : base((ConfigurationService)configurationService)
+            : base(configurationService)
         {
             Description = "Pepperoni";
-            TotalToppingTime = configurationService.CalculateTotalToppingTime(Description);
+            TotalToppingTime = CalculateTotalToppingTime(Description);
         }
     }
 
     public class Vegetable : Topping
     {
         public Vegetable(IConfigurationService configurationService)
-            : base((ConfigurationService)configurationService)
+            : base(configurationService)
         {
             Description = "Vegetable";
-            TotalToppingTime = configurationService.CalculateTotalToppingTime(Description);
+            TotalToppingTime = CalculateTotalToppingTime(Description);
         }
     }
 }

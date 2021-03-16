@@ -20,7 +20,7 @@ namespace PizzaFactory.Services
             return totalNumberPizzas;
         }
 
-        private double GetBaseCookingTime()
+        public double GetBaseCookingTime()
         {
             var configSection = GetProperties();
             var baseCookingTimeConfig = configSection.Get<Properties>().BaseCookingTime;
@@ -34,7 +34,7 @@ namespace PizzaFactory.Services
             return baseCookingTime;
         }
 
-        private double GetBaseMultiplier(string baseType)
+        public double GetBaseMultiplier(string baseType)
         {
             var configSection = GetProperties();
             var baseMultiplierConfig = "";
@@ -63,16 +63,7 @@ namespace PizzaFactory.Services
             return baseMultiplier;
         }
 
-        public double CalculateTotalBaseTime(string baseType)
-        {
-            var baseCookingTime = GetBaseCookingTime();
-            var baseMultiplier = GetBaseMultiplier(baseType);
-            var totalBaseTime = baseCookingTime * baseMultiplier;
-
-            return totalBaseTime;
-        }
-
-        private double GetToppingCookingTime(string description)
+        public double GetToppingCookingTime()
         {
             var configSection = GetProperties();
             var timePerLetterToppingConfig = configSection.Get<Properties>().TimePerToppingLetter;
@@ -89,7 +80,7 @@ namespace PizzaFactory.Services
         public double CalculateTotalToppingTime(string description)
         {
             description = description.Replace(" ", String.Empty);
-            var timePerLetterTopping = GetToppingCookingTime(description);
+            var timePerLetterTopping = GetToppingCookingTime();
 
             var totalToppingTime = timePerLetterTopping * description.Length;
 
@@ -118,7 +109,7 @@ namespace PizzaFactory.Services
             return filePath;
         }
 
-        private IConfiguration GetProperties()
+        public IConfiguration GetProperties()
         {
             var configSection = ConfigurationManager.Configuration.GetSection(nameof(Properties));
             return configSection;

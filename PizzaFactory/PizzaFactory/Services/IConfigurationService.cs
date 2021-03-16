@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace PizzaFactory.Services
 {
     public interface IConfigurationService
     {
         int GetTotalNumberPizzas();
-        double CalculateTotalBaseTime(string baseType);
+        double GetBaseCookingTime();
+        double GetBaseMultiplier(string baseType);
+        double GetToppingCookingTime();
         double GetIntervalTime();
-        double CalculateTotalToppingTime(string description);
         string GetFilePath();
+        IConfiguration GetProperties();
     }
 }

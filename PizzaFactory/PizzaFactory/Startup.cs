@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using PizzaFactory.Helpers;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PizzaFactory.Services;
 
 namespace PizzaFactory
@@ -8,13 +7,20 @@ namespace PizzaFactory
     {
         public static void RunApplication()
         {
-            var consoleWriter = new ConsoleWriter();
-            var configurationService = new ConfigurationService();
-            var fileWriter = new FileWriter(configurationService);
+            var service = SetupDependencyInjection();
 
-            var pizzaFactoryRunner = new PizzaFactoryRunner(consoleWriter, configurationService, fileWriter);
+            var pizzaFactoryRunner = new PizzaFactoryRunner(service);
 
             pizzaFactoryRunner.RunPizzaFactory();
+        }
+
+        static ServiceProvider SetupDependencyInjection()
+        {
+            return new ServiceCollection()
+                .AddSingleton<IConsoleWriter, ConsoleWriter>()
+                .AddSingleton<IConfigurationService, ConfigurationService>()
+                .AddSingleton<IFileWriter, FileWriter>()
+                .BuildServiceProvider();
         }
     }
 }

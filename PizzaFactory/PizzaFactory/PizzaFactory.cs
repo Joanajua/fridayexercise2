@@ -1,6 +1,7 @@
 ﻿using System;
 using PizzaFactory.Services;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PizzaFactory
 {
@@ -10,12 +11,11 @@ namespace PizzaFactory
         private readonly IConfigurationService _configurationService;
         private readonly IFileWriter _fileWriter;
 
-
-        public PizzaFactoryRunner(IConsoleWriter consoleWriter, IConfigurationService configurationService, IFileWriter fileWriter)
+        public PizzaFactoryRunner(IServiceProvider serviceProvider)
         {
-            _consoleWriter = consoleWriter;
-            _configurationService = configurationService;
-            _fileWriter = fileWriter;
+            _consoleWriter = serviceProvider.GetService<IConsoleWriter>();
+            _configurationService = serviceProvider.GetService<IConfigurationService>();
+            _fileWriter = serviceProvider.GetService<IFileWriter>();
         }
 
         public void RunPizzaFactory()
