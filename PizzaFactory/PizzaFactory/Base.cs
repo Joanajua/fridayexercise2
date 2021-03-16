@@ -4,9 +4,8 @@ namespace PizzaFactory
 {
     public class Base
     {
-        protected IConfigurationService _configurationService;
-
-        protected Base(IConfigurationService configurationService)
+        private readonly IConfigurationService _configurationService;
+        public Base(IConfigurationService configurationService)
         {
             _configurationService = configurationService;
         }
@@ -17,9 +16,16 @@ namespace PizzaFactory
 
         public double CalculateTotalBaseTime(string baseType)
         {
+            double totalBaseTime = 0;
+
+            if (string.IsNullOrEmpty(baseType))
+            {
+                return totalBaseTime;
+            }
+
             var baseCookingTime = _configurationService.GetBaseCookingTime();
             var baseMultiplier = _configurationService.GetBaseMultiplier(baseType);
-            var totalBaseTime = baseCookingTime * baseMultiplier;
+            totalBaseTime = baseCookingTime * baseMultiplier;
 
             return totalBaseTime;
         }

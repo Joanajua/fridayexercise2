@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Moq;
-using Moq.Protected;
 using PizzaFactory.Services;
 using Xunit;
 
 namespace PizzaFactory.Tests
 {
-    public class ToppingTests
+    public class BaseTests
     {
         public Mock<IConfigurationService> _configurationServiceMock = new Mock<IConfigurationService>();
 
@@ -17,18 +15,24 @@ namespace PizzaFactory.Tests
         [InlineData("Test", 400)]
         [InlineData("This is a test", 1100)]
         [InlineData("This-is-a-test", 1400)]
-        public void CalculateTotalToppingTime_Should_calculate_appropriate_total_topping_time(string description, double expected)
+        public void CalculateTotalBaseTime_Should_calculate_appropriate_total_base_time(string baseType, double expected)
         {
             //Arrange
-            var topping = new Topping(_configurationServiceMock.Object);
-            var timePerLetterTopping = 100;
+            var baseInstance = new Base(_configurationServiceMock.Object);
+            var baseCookingTime = 1000;
+            var baseMultiplier = 1.3;
 
-            var configTopping = _configurationServiceMock
-                .Setup(x => x.GetToppingCookingTime())
-                .Returns(timePerLetterTopping);
+            var configBaseCookingTime = _configurationServiceMock
+                .Setup(x => x.GetBaseCookingTime())
+                .Returns(baseCookingTime);
+
+            var configBaseMultiplier = _configurationServiceMock
+                .Setup(x => x.GetBaseMultiplier(baseType))
+                .Returns(baseMultiplier);
+
 
             //Act
-            var result = topping.CalculateTotalToppingTime(description);
+            var result = baseInstance.CalculateTotalBaseTime(baseType);
 
             //Assert
             Assert.IsType<Double>(result);
